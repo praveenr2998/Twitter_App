@@ -31,7 +31,7 @@ class features():
             self.cursor = self.connection.cursor()
             
         except (Exception, Error) as error:
-            return "Error while connecting to PostgreSQL : " + str(error)
+            return "Error while connecting to DB : " + str(error)
 
 
 
@@ -121,7 +121,7 @@ class features():
 
 
         except (Exception, psycopg2.Error) as error:
-            return {"Message" : "Error While Inserting Tweets To DB" + str(error),
+            return {"Message" : "Error While Inserting Tweets To DB - " + str(error),
                     "Status"  : "Failed"}
 
 
@@ -221,4 +221,42 @@ class features():
 
         except Exception as e:
             return None, e
+
+
+
+
+
+    def fetch_tweets_from_db(self, user_name):
+        r'''This function is used to fetch tweets from DB
+
+            It returns tweets from DB, status(True/error message).
+
+            Parameters
+            ----------
+
+            Below are the KeyWord Arguments that can be passed
+
+            username    :    String - Twitter username whose tweets need to be fetched.
+
+            
+            Raises
+            ------
+            None, Reason of failure
+            
+            
+            Returns
+            -------
+            Tweets, Status(True)            : On Sucess
+            None, Reason for failure        : On Failure
+
+        '''
+
+        try:
+            self.cursor.execute(FETCH_DATA_CHRONOLOGICALLY.format(user_name))
+            fetch_result = self.cursor.fetchall()
+            
+            return fetch_result, True
+
+        except Exception as e:  
+            return None, "Error in fetching tweets from DB : " + str(e)
 

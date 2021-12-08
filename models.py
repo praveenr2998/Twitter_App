@@ -36,7 +36,7 @@ class features():
 
 
 
-    def insertDataToDb(self):
+    def insertDataToDb(self, user_name):
         r'''This function is used to insert data into the database
 
             Calls Functions - get_tweets_from_twitter, filter_tweets_by_date
@@ -48,7 +48,7 @@ class features():
 
             Below are the KeyWord Arguments that can be passed
 
-            No Parameters
+            user_name   :    String - Twitter user name
 
             
             Raises
@@ -65,18 +65,18 @@ class features():
 
 
         try:
-            tweets_from_twitter, status = self.get_tweets_from_twitter("Praveen18200450")
+            tweets_from_twitter, status = self.get_tweets_from_twitter(user_name)
 
             if status is not True:
                 return {"Message" : status,
                         "Status"  : "Failed"}
 
 
-            self.cursor.execute(FETCH_USER_ID.format("Praveen18200450"))
+            self.cursor.execute(FETCH_USER_ID.format(user_name))
             fetch_result = self.cursor.fetchall()
 
             if len(fetch_result) != 0:
-                self.cursor.execute(FETCH_DATA_CHRONOLOGICALLY.format("Praveen18200450"))                
+                self.cursor.execute(FETCH_DATA_CHRONOLOGICALLY.format(user_name))                
                 fetch_results = self.cursor.fetchall()
                 for row in fetch_results:
                     start_date = row[2]
@@ -95,14 +95,14 @@ class features():
                     if tweet_text.startswith("RT"):
                         tweet_text = tweet.retweeted_status.full_text
                     tweet_text = tweet_text.replace("'","''")
-                    self.cursor.execute(INSERT_TWEETS_TO_DB.format("Praveen18200450",tweet_text , post_date))
+                    self.cursor.execute(INSERT_TWEETS_TO_DB.format(user_name, tweet_text, post_date))
                 return {"Message" : "Latest Tweets Are Inserted into DB",
                         "Status"  : "Success"}
 
 
             
             else:
-                self.cursor.execute(INSERT_INTO_USER_ID_TABLE.format("Praveen18200450"))
+                self.cursor.execute(INSERT_INTO_USER_ID_TABLE.format(user_name))
                 for tweet in tweets_from_twitter:
                     post_date = tweet.created_at
                     post_date = str(post_date).replace(" ","T")
@@ -110,7 +110,7 @@ class features():
                     if tweet_text.startswith("RT"):
                         tweet_text = tweet.retweeted_status.full_text
                     tweet_text = tweet_text.replace("'","''")
-                    self.cursor.execute(INSERT_TWEETS_TO_DB.format("Praveen18200450",tweet_text , post_date))
+                    self.cursor.execute(INSERT_TWEETS_TO_DB.format(user_name, tweet_text, post_date))
 
             self.connection.commit()
 #            self.connection.close()

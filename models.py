@@ -167,7 +167,7 @@ class features():
             auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
             auth.set_access_token(access_key, access_secret)
             api = tweepy.API(auth)
-            number_of_tweets=200
+            number_of_tweets=1000
             tweets = api.user_timeline(screen_name=username, include_rts = True, tweet_mode = 'extended')
 
             return tweets, True
@@ -259,4 +259,18 @@ class features():
 
         except Exception as e:  
             return None, "Error in fetching tweets from DB : " + str(e)
+
+
+
+
+
+    def filter_tweets_by_keywords(self, data, keyword):
+        try:
+            return_data = []
+            for _ in data:
+                if keyword.lower() in _[1].lower():
+                    return_data.append(_)
+            return return_data, True
+        except Exception as e:
+            return None, "Error in filtering data from DB : " + str(e)
 

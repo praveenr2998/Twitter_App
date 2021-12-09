@@ -45,12 +45,22 @@ def fetchdataDB():
 
 
 
-
+# Filter dates by text,from date, to date
 @app.route("/filter", methods=['GET', 'POST'])
 def filter():
     form = FilterForm()
     if form.validate_on_submit():
-        return "Filter Details Collected Successfully"
+        if form.text.data is not None:
+            keyword = form.text.data
+            data, message = obj1.fetch_tweets_from_db(session.get("user_name"))
+            if message is True:
+                return_data, status = obj1.filter_tweets_by_keywords(data, keyword)
+                if status is True:
+                    return render_template('chronological_tweet_display.html', data=return_data)
+            else:
+                return "Unsuccessful"
+        
+
     return render_template('filter.html', title='Filter', form=form)
 
 

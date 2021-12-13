@@ -166,9 +166,12 @@ class features():
         try:
             auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
             auth.set_access_token(access_key, access_secret)
+
+            tweets = []
             api = tweepy.API(auth)
-            number_of_tweets=1000
-            tweets = api.user_timeline(screen_name=username, include_rts = True, tweet_mode = 'extended')
+            # tweets = api.user_timeline(screen_name=username, count=1000)
+            for status in tweepy.Cursor(api.user_timeline, screen_name='@saamatechinc', tweet_mode="extended").items(100):
+                tweets.append(status)
 
             return tweets, True
         

@@ -170,7 +170,7 @@ class features():
             tweets = []
             api = tweepy.API(auth)
             # tweets = api.user_timeline(screen_name=username, count=1000)
-            for status in tweepy.Cursor(api.user_timeline, screen_name='@saamatechinc', tweet_mode="extended").items(100):
+            for status in tweepy.Cursor(api.user_timeline, screen_name=username, tweet_mode="extended").items(500):
                 tweets.append(status)
 
             return tweets, True
@@ -217,7 +217,7 @@ class features():
             tweet_object_list = []
             
             for tweet in tweets_from_twitter:
-                if tweet.created_at < end_date and tweet.created_at > start_date:
+                if tweet.created_at < end_date and tweet.created_at >= start_date:
                     tweet_object_list.append(tweet)
 
             return tweet_object_list, True
@@ -267,13 +267,37 @@ class features():
 
 
 
-    def filter_tweets_by_keywords(self, data, keyword):
+    def filter_tweets_by_keywords(self, data, keyword, from_date, to_date):
         try:
             return_data = []
-            for _ in data:
-                if keyword.lower() in _[1].lower():
-                    return_data.append(_)
-            return return_data, True
+            from_date = from_date + " 00:00:00"
+            from_date = datetime.strptime(from_date, "%d/%m/%Y %H:%M:%S")
+            to_date = to_date + " 00:00:00"
+            to_date = datetime.strptime(to_date, "%d/%m/%Y %H:%M:%S")
+
+
+            if keyword is not None and from_date is not None and to_date is not None:
+                for _ in data:
+                    if keyword.lower() in _[1].lower() and from_date <= _[2] <= to_date :
+                        return_data.append(_)
+                return return_data, True
+
+            
+            if keyword is None and from_date is not None and to_date is not None:
+                for _ in data:
+                    if from_date <= _[2] <= to_date :
+                        return_data.append(_)
+                return return_data, True
+
+            
+            if keyword is not None and from_date is None and to_date is None:
+                for _ in data:
+                    if keyword.lower() in _[1].lower() :
+                        return_data.append(_)
+                return return_data, True
+
+
+
         except Exception as e:
             return None, "Error in filtering data from DB : " + str(e)
 

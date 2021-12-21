@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired
 class FilterForm(FlaskForm):
     text = StringField('Text')
     from_date = StringField('From Date  - DD/MM/YY')
-    to_date = PasswordField('To Date  - DD/MM/YY')
+    to_date = StringField('To Date  - DD/MM/YY')
     submit = SubmitField('Submit')
 
 

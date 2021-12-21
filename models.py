@@ -270,31 +270,34 @@ class features():
     def filter_tweets_by_keywords(self, data, keyword, from_date, to_date):
         try:
             return_data = []
-            from_date = from_date + " 00:00:00"
-            from_date = datetime.strptime(from_date, "%d/%m/%Y %H:%M:%S")
-            to_date = to_date + " 00:00:00"
-            to_date = datetime.strptime(to_date, "%d/%m/%Y %H:%M:%S")
+            if from_date != "" and to_date != "":
+                from_date = from_date + " 00:00:00"
+                from_date = datetime.strptime(from_date, "%d/%m/%Y %H:%M:%S")
+                to_date = to_date + " 00:00:00"
+                to_date = datetime.strptime(to_date, "%d/%m/%Y %H:%M:%S")
 
 
-            if keyword is not None and from_date is not None and to_date is not None:
+            if keyword != "" and from_date != "" and to_date != "":
                 for _ in data:
                     if keyword.lower() in _[1].lower() and from_date <= _[2] <= to_date :
                         return_data.append(_)
                 return return_data, True
 
             
-            if keyword is None and from_date is not None and to_date is not None:
+            if keyword  == "" and from_date != "" and to_date != "":
                 for _ in data:
                     if from_date <= _[2] <= to_date :
                         return_data.append(_)
                 return return_data, True
 
             
-            if keyword is not None and from_date is None and to_date is None:
+            if keyword  != "" and from_date == "" and to_date == "":
                 for _ in data:
                     if keyword.lower() in _[1].lower() :
                         return_data.append(_)
                 return return_data, True
+
+
 
 
 

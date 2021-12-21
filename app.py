@@ -55,10 +55,10 @@ def filter():
             return_data, status = obj1.filter_tweets_by_keywords(data, form.text.data, form.from_date.data, form.to_date.data)
             if status is True:
                 return render_template('chronological_tweet_display.html', data=return_data)
-        else:
+            else:
                 return "Unsuccessful"
         
-
+        
     return render_template('filter.html', title='Filter', form=form)
 
 

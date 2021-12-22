@@ -11,7 +11,8 @@ global obj1
 obj1 = features()
 
 
-# Provide Username
+
+# Login Page
 @app.route('/')
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -30,7 +31,10 @@ def login():
 
 
 
-# Display tweets chronologically
+
+
+
+# Fetch data from Db and display tweets chronologically
 @app.route('/fetchdataDB')
 def fetchdataDB():
     data, message = obj1.fetch_tweets_from_db(session.get("user_name"))
@@ -45,6 +49,8 @@ def fetchdataDB():
 
 
 
+
+
 # Filter dates by text, from date, to date
 @app.route("/filter", methods=['GET', 'POST'])
 def filter():
@@ -52,7 +58,7 @@ def filter():
     if form.validate_on_submit():
         data, message = obj1.fetch_tweets_from_db(session.get("user_name"))
         if message is True:
-            return_data, status = obj1.filter_tweets_by_keywords(data, form.text.data, form.from_date.data, form.to_date.data)
+            return_data, status = obj1.filter_tweets_by_parameters(data, form.text.data, form.from_date.data, form.to_date.data)
             if status is True:
                 return render_template('chronological_tweet_display.html', data=return_data)
             else:

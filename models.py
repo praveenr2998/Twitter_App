@@ -1,8 +1,13 @@
 """ This file contains all the functions that are needed to perform DB related operations using Twitter API
 
-FUNCTION NAME          -    WHAT THE FUNCTION DOES
+FUNCTION NAME               -    WHAT THE FUNCTION DOES
 
-insertDataToDb         -   Insert the tweets into Postgres DB.
+insertDataToDb              -   Insert the tweets into Postgres DB.
+get_tweets_from_twitter     -   Get tweets using twitter API
+filter_tweets_by_date       -   Filter tweets from data fetched from twitter API
+fetch_tweets_from_db        -   Fetch tweets from DB using user_name
+filter_tweets_by_parameters - Filter tweets fetched from DB based on keyword/date
+
 
 
 
@@ -267,7 +272,34 @@ class features():
 
 
 
-    def filter_tweets_by_keywords(self, data, keyword, from_date, to_date):
+    def filter_tweets_by_parameters(self, data, keyword, from_date, to_date):
+        r'''This function is used to filter tweets by keyword/dates.
+
+            It returns tweets from DB, status(True/error message).
+
+            Parameters
+            ----------
+
+            Below are the KeyWord Arguments that can be passed
+
+            data      :    Tuple  - Tweets fetched from DB
+            keyword   :    String - Word or sentence used to filter tweets
+            from_date :    String - From date as a string
+            to_date   :    String - To date as a string
+
+            
+            Raises
+            ------
+            None, Reason of failure
+            
+            
+            Returns
+            -------
+            Tweets, Status(True) or empty list(when no match is found)           : On Sucess
+            None, Reason for failure                                            : On Failure
+
+        '''
+
         try:
             return_data = []
             if from_date != "" and to_date != "":

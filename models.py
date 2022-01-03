@@ -222,7 +222,10 @@ class features():
             tweet_object_list = []
             
             for tweet in tweets_from_twitter:
-                if tweet.created_at < end_date and tweet.created_at >= start_date:
+                tweet_date_str = str(tweet.created_at)
+                split_tweet_date_str = tweet_date_str.split("+")
+                tweet_date = datetime.strptime(split_tweet_date_str[0], '%Y-%m-%d %H:%M:%S')
+                if tweet_date <= end_date and tweet_date > start_date:
                     tweet_object_list.append(tweet)
 
             return tweet_object_list, True

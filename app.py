@@ -12,9 +12,8 @@ obj1 = features()
 
 
 
-# Login Page
-@app.route('/')
-@app.route("/login", methods=['GET', 'POST'])
+# Login
+@app.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -71,6 +70,17 @@ def filter():
 
 
 
+
+
+# Cron job to update with latest tweets
+@app.route("/cronjob")
+def cron_job():
+    cron_response = obj1.insertDataToDb(session.get("user_name"))
+    if cron_response.get("Status") == 'Success':
+        return "Cronjob Successfull"
+    else:
+        return cron_response
+        
 
 
 

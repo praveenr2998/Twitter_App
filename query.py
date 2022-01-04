@@ -17,3 +17,8 @@ INSERT_INTO_USER_ID_TABLE = '''
 INSERT INTO userid (user_id)
 VALUES ('{}');
 '''
+
+
+FETCH_ALL_USER_ID = '''
+SELECT user_id from userid ;
+'''

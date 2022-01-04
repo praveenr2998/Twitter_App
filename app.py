@@ -75,11 +75,27 @@ def filter():
 # Cron job to update with latest tweets
 @app.route("/cronjob")
 def cron_job():
-    cron_response = obj1.insertDataToDb(session.get("user_name"))
-    if cron_response.get("Status") == 'Success':
-        return "Cronjob Successfull"
+    cron_flag = False
+    user_ids, status = obj1.fetch_user_ids()
+    if status is True and len(user_ids)>0:
+        for ids in user_ids:
+            cron_response = obj1.insertDataToDb(ids)
+            print(cron_response.get("Message"))
+            if cron_response.get("Status") == 'Success':
+                cron_flag = True
+            else:
+                cron_flag = False
+    
     else:
-        return cron_response
+        return {"Status" : cron_flag,
+                "Message" : "Cronjob Unsuccessful : Either no user_ids present in DB or " + str(status)}
+    
+    if cron_flag is True:
+        return {"Status" : cron_flag,
+                "Message" : "Cronjob successful"}
+    else:
+        return {"Status" : cron_flag,
+                "Message" : "Cronjob Unsuccessful : " + str(cron_response.get("Message"))}
         
 
 

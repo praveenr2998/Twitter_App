@@ -21,7 +21,8 @@ from datetime import datetime
 
 from tweepy.models import Status
 
-from query import INSERT_TWEETS_TO_DB, FETCH_DATA_CHRONOLOGICALLY, FETCH_USER_ID, INSERT_INTO_USER_ID_TABLE
+from query import INSERT_TWEETS_TO_DB, FETCH_DATA_CHRONOLOGICALLY, \
+    FETCH_USER_ID, INSERT_INTO_USER_ID_TABLE, FETCH_ALL_USER_ID
 
 
 class features():
@@ -298,7 +299,7 @@ class features():
             
             Returns
             -------
-            Tweets, Status(True) or empty list(when no match is found)           : On Sucess
+            Tweets, Status(True) or empty list(when no match is found)          : On Sucess
             None, Reason for failure                                            : On Failure
 
         '''
@@ -338,4 +339,48 @@ class features():
 
         except Exception as e:
             return None, "Error in filtering data from DB : " + str(e)
+
+
+
+
+
+
+    
+    def fetch_user_ids(self):
+        r'''This function is used to filter tweets by keyword/dates.
+
+            It returns tweets from DB, status(True/error message).
+
+            Parameters
+            ----------
+
+            No parameters are passed to this function
+            
+            Raises
+            ------
+            user_id list, Reason of failure
+            
+            
+            Returns
+            -------
+            User id - List, True          : On Sucess
+            
+        '''
+
+        
+        try:
+            self.cursor.execute(FETCH_ALL_USER_ID)
+            fetch_result = self.cursor.fetchall()
+
+            user_ids = []
+            for data in fetch_result:
+                user_ids.append(data[0])
+
+            print(user_ids)
+            return user_ids, True
+
+        except Exception as e:
+            return user_ids, str(e)
+
+
 

@@ -376,7 +376,6 @@ class features():
             for data in fetch_result:
                 user_ids.append(data[0])
 
-            print(user_ids)
             return user_ids, True
 
         except Exception as e:

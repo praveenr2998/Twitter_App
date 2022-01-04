@@ -6,7 +6,8 @@ insertDataToDb              -   Insert the tweets into Postgres DB.
 get_tweets_from_twitter     -   Get tweets using twitter API
 filter_tweets_by_date       -   Filter tweets from data fetched from twitter API
 fetch_tweets_from_db        -   Fetch tweets from DB using user_name
-filter_tweets_by_parameters - Filter tweets fetched from DB based on keyword/date
+filter_tweets_by_parameters -   Filter tweets fetched from DB based on keyword/date
+fetch_user_ids              -   Get user IDs from DB.
 
 
 
@@ -347,9 +348,9 @@ class features():
 
     
     def fetch_user_ids(self):
-        r'''This function is used to filter tweets by keyword/dates.
+        r'''This function is used to fetch user ids from DB.
 
-            It returns tweets from DB, status(True/error message).
+            It returns user ids and status(True/reason for failure).
 
             Parameters
             ----------

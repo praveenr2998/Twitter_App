@@ -73,7 +73,7 @@ def filter():
 
 
 # Cron job to update with latest tweets
-@app.route("/cronjob")
+@app.route("/cronjob", methods=['GET'])
 def cron_job():
     cron_flag = False
     user_ids, status = obj1.fetch_user_ids()

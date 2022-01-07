@@ -21,9 +21,11 @@ from psycopg2 import Error
 from datetime import datetime
 
 from tweepy.models import Status
+from psycopg2.extras import execute_batch
 
-from query import INSERT_TWEETS_TO_DB, FETCH_DATA_CHRONOLOGICALLY, \
-    FETCH_USER_ID, INSERT_INTO_USER_ID_TABLE, FETCH_ALL_USER_ID
+from query import FETCH_DATA_CHRONOLOGICALLY, \
+    FETCH_USER_ID, INSERT_INTO_USER_ID_TABLE, FETCH_ALL_USER_ID,\
+    BULK_INSERT_TWEETS_TO_DB    
 
 
 class features():
@@ -73,7 +75,6 @@ class features():
 
         try:
             tweets_from_twitter, status = self.get_tweets_from_twitter(user_name)
-
             if status is not True:
                 return {"Message" : status,
                         "Status"  : "Failed"}
@@ -83,6 +84,7 @@ class features():
             fetch_result = self.cursor.fetchall()
 
             if len(fetch_result) != 0:
+                bulk_update_list = []
                 self.cursor.execute(FETCH_DATA_CHRONOLOGICALLY.format(user_name))                
                 fetch_results = self.cursor.fetchall()
                 for row in fetch_results:
@@ -95,20 +97,23 @@ class features():
                     return {"Message" : status,
                             "Status"  : "Failed"}
 
-                
+                               
                 for tweet in tweet_object_list:
                     post_date = tweet.created_at
                     tweet_text = tweet.full_text
                     if tweet_text.startswith("RT"):
                         tweet_text = tweet.retweeted_status.full_text
                     tweet_text = tweet_text.replace("'","''")
-                    self.cursor.execute(INSERT_TWEETS_TO_DB.format(user_name, tweet_text, post_date))
+                    bulk_update_list.append((user_name, tweet_text, post_date))
+
+                execute_batch(self.cursor, BULK_INSERT_TWEETS_TO_DB, bulk_update_list)
                 return {"Message" : "Latest Tweets Are Inserted into DB",
                         "Status"  : "Success"}
 
 
             
             else:
+                bulk_update_list = []
                 self.cursor.execute(INSERT_INTO_USER_ID_TABLE.format(user_name))
                 for tweet in tweets_from_twitter:
                     post_date = tweet.created_at
@@ -117,7 +122,8 @@ class features():
                     if tweet_text.startswith("RT"):
                         tweet_text = tweet.retweeted_status.full_text
                     tweet_text = tweet_text.replace("'","''")
-                    self.cursor.execute(INSERT_TWEETS_TO_DB.format(user_name, tweet_text, post_date))
+                    bulk_update_list.append((user_name, tweet_text, post_date))
+                execute_batch(self.cursor, BULK_INSERT_TWEETS_TO_DB, bulk_update_list)
 
             self.connection.commit()
 #            self.connection.close()

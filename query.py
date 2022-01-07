@@ -1,8 +1,3 @@
-INSERT_TWEETS_TO_DB = '''
-INSERT INTO twitterdata (user_id,tweet,post_date)
-VALUES ('{}', '{}', '{}');
-'''
-
 FETCH_DATA_CHRONOLOGICALLY = '''
 SELECT user_id, tweet, post_date
 FROM twitterdata where user_id = '{}'
@@ -21,4 +16,9 @@ VALUES ('{}');
 
 FETCH_ALL_USER_ID = '''
 SELECT user_id from userid ;
+'''
+
+BULK_INSERT_TWEETS_TO_DB = '''
+INSERT INTO twitterdata (user_id,tweet,post_date)
+VALUES (%s, %s, %s);
 '''

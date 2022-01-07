@@ -1,5 +1,22 @@
 # Saama-Twitter_App
 This web application fetches tweets from twitter using twitter api and facilitates easy viewing and filtering of tweets.
+├── app.py
+├── cronjob.py
+├── cronjob.sh
+├── forms.py
+├── models.py
+├── query.py
+├── README.md
+├── requirements.txt
+├── static
+│   └── main.css
+└── templates
+    ├── chronological_tweet_display.html
+    ├── filter.html
+    ├── layout.html
+    └── login.html
+
+
 
 # URLs
 http://localhost:5000/   -   Login Page

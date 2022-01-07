@@ -1,5 +1,5 @@
 # Saama-Twitter_App
-This web application fetches tweets from twitter using twitter api and facilitates easy viewing and filtering of tweets.
+This web application that fetches tweets from twitter using twitter api and facilitates easy viewing and filtering of tweets.
 
 ![pic1](https://user-images.githubusercontent.com/51623786/148491208-a3b9c8cf-467d-4979-9072-31411825c831.png)
 

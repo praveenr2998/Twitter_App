@@ -1,5 +1,8 @@
 # Saama-Twitter_App
-This web application fetches tweets from twitter using twitter api and facilitates easy viewing and filtering of tweets.
+This web application that fetches tweets from twitter using twitter api and facilitates easy viewing and filtering of tweets.
+
+![pic1](https://user-images.githubusercontent.com/51623786/148491208-a3b9c8cf-467d-4979-9072-31411825c831.png)
+
 
 # URLs
 http://localhost:5000/   -   Login Page
@@ -9,6 +12,7 @@ http://localhost:5000/fetchdataDB - Display all tweets
 http://localhost:5000/filter - Filter by keyword or dates or both
 
 http://localhost:5000/cronjob - Update tweets(cronjob)
+
 
 
 # Application demo video

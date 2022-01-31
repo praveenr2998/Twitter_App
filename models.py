@@ -32,11 +32,11 @@ class features():
     
     def __init__(self):
         try:
-            self.connection = psycopg2.connect(user="praveen",
-                                  password="29121998Pp@",
-                                  host="127.0.0.1",
-                                  port="5432",
-                                  database="postgres")
+            self.connection = psycopg2.connect(user="",
+                                  password="",
+                                  host="",
+                                  port="",
+                                  database="")
             self.cursor = self.connection.cursor()
             
         except (Exception, Error) as error:
@@ -169,10 +169,10 @@ class features():
 
         '''
         
-        consumer_key = "KzW1PNX6dIjzsy7Ha1aPBipYZ"
-        consumer_secret = "VDhRJMq8j4F7QFpwKq6ML6PwKhCrF1ud6NjjqjJCbrlQEV3rAi"
-        access_key = "1280193278470545409-mjmL6OInDBrMtjRWNuXjQFJ7ZItUmj"
-        access_secret = "2DBIIEnO7KGK2dAGleoNVPCZD5DaPZJ22k5k6BVAqKVtK"
+        consumer_key = ""
+        consumer_secret = ""
+        access_key = ""
+        access_secret = ""
 
         
         
